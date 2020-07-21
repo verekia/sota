@@ -1,0 +1,67 @@
+- table:
+    schema: public
+    name: post
+  object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: userId
+- table:
+    schema: public
+    name: sponsor
+  select_permissions:
+  - role: build
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+- table:
+    schema: public
+    name: user
+  array_relationships:
+  - name: posts
+    using:
+      foreign_key_constraint_on:
+        column: userId
+        table:
+          schema: public
+          name: post
+  insert_permissions:
+  - role: server
+    permission:
+      check: {}
+      columns:
+      - bio
+      - name
+      - username
+      - createdAt
+      - updatedAt
+      - id
+      backend_only: false
+  select_permissions:
+  - role: server
+    permission:
+      columns:
+      - id
+      - createdAt
+      - updatedAt
+      - username
+      - bio
+      - name
+      filter: {}
+  update_permissions:
+  - role: server
+    permission:
+      columns:
+      - bio
+      - name
+      - username
+      - createdAt
+      - updatedAt
+      - id
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: server
+    permission:
+      filter: {}
